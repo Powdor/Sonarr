@@ -27,6 +27,7 @@ using NzbDrone.Core.SeriesStats;
 using NzbDrone.Core.Tags;
 using NzbDrone.Core.ThingiProvider;
 using NzbDrone.Core.Tv;
+using NzbDrone.Common.Disk;
 
 namespace NzbDrone.Core.Datastore
 {
@@ -112,6 +113,7 @@ namespace NzbDrone.Core.Datastore
             MapRepository.Instance.RegisterTypeConverter(typeof(ParsedEpisodeInfo), new EmbeddedDocumentConverter());
             MapRepository.Instance.RegisterTypeConverter(typeof(ReleaseInfo), new EmbeddedDocumentConverter());
             MapRepository.Instance.RegisterTypeConverter(typeof(HashSet<Int32>), new EmbeddedDocumentConverter());
+            MapRepository.Instance.RegisterTypeConverter(typeof(OsPath), new OsPathConverter());
         }
 
         private static void RegisterProviderSettingConverter()
