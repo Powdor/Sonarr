@@ -708,6 +708,9 @@
     <Compile Include="Queue\QueueScheduler.cs" />
     <Compile Include="Queue\QueueService.cs" />
     <Compile Include="Queue\UpdateQueueEvent.cs" />
+    <Compile Include="Restrictions\Restriction.cs" />
+    <Compile Include="Restrictions\RestrictionRepository.cs" />
+    <Compile Include="Restrictions\RestrictionService.cs" />
     <Compile Include="Rest\JsonNetSerializer.cs" />
     <Compile Include="Rest\RestClientFactory.cs" />
     <Compile Include="Rest\RestException.cs" />
