@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NLog;
 
 namespace NzbDrone.Core.Restrictions
@@ -30,6 +29,26 @@ namespace NzbDrone.Core.Restrictions
         public List<Restriction> AllForTags(HashSet<Int32> tagIds)
         {
             return _repo.All().Where(r => r.Tags.Intersect(tagIds).Any()).ToList();
+        }
+
+        public Restriction Get(Int32 id)
+        {
+            return _repo.Get(id);
+        }
+
+        public void Delete(Int32 id)
+        {
+            _repo.Delete(id);
+        }
+
+        public Restriction Add(Restriction restriction)
+        {
+            return _repo.Insert(restriction);
+        }
+
+        public Restriction Update(Restriction restriction)
+        {
+            return _repo.Update(restriction);
         }
     }
 }
