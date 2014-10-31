@@ -6,13 +6,16 @@ namespace NzbDrone.Core.Restrictions
 {
     public class Restriction : ModelBase
     {
-        public String Required { get; set; }
-        public String Preferred { get; set; }
-        public String Ignored { get; set; }
+        public List<RestrictionRule> Required { get; set; }
+        public List<RestrictionRule> Preferred { get; set; }
+        public List<RestrictionRule> Ignored { get; set; }
         public HashSet<Int32> Tags { get; set; }
 
         public Restriction()
         {
+            Required = new List<RestrictionRule>();
+            Preferred = new List<RestrictionRule>();
+            Ignored = new List<RestrictionRule>();
             Tags = new HashSet<Int32>();
         }
     }

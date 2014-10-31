@@ -2,10 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using NzbDrone.Common;
 
 namespace NzbDrone.Core.Restrictions
 {
-    public class RestrictionService
+    public interface IRestrictionService
+    {
+        List<Restriction> All();
+        List<Restriction> AllForTag(Int32 tagId);
+        List<Restriction> AllForTags(HashSet<Int32> tagIds);
+        Restriction Get(Int32 id);
+        void Delete(Int32 id);
+        Restriction Add(Restriction restriction);
+        Restriction Update(Restriction restriction);
+    }
+
+    public class RestrictionService : IRestrictionService
     {
         private readonly IRestrictionRepository _repo;
         private readonly Logger _logger;
@@ -23,12 +35,12 @@ namespace NzbDrone.Core.Restrictions
 
         public List<Restriction> AllForTag(Int32 tagId)
         {
-            return _repo.All().Where(r => r.Tags.Contains(tagId)).ToList();
+            return _repo.All().Where(r => r.Tags.Contains(tagId) || r.Tags.Empty()).ToList();
         }
 
         public List<Restriction> AllForTags(HashSet<Int32> tagIds)
         {
-            return _repo.All().Where(r => r.Tags.Intersect(tagIds).Any()).ToList();
+            return _repo.All().Where(r => r.Tags.Intersect(tagIds).Any() || r.Tags.Empty()).ToList();
         }
 
         public Restriction Get(Int32 id)

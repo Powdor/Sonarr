@@ -263,7 +263,7 @@
     <Compile Include="DecisionEngine\Specifications\CutoffSpecification.cs" />
     <Compile Include="DecisionEngine\Specifications\LanguageSpecification.cs" />
     <Compile Include="DecisionEngine\Specifications\NotInQueueSpecification.cs" />
-    <Compile Include="DecisionEngine\Specifications\NotRestrictedReleaseSpecification.cs" />
+    <Compile Include="DecisionEngine\Specifications\ReleaseRestrictionsSpecification.cs" />
     <Compile Include="DecisionEngine\Specifications\NotSampleSpecification.cs" />
     <Compile Include="DecisionEngine\Specifications\QualityAllowedByProfileSpecification.cs" />
     <Compile Include="DecisionEngine\Specifications\RetentionSpecification.cs">
@@ -711,6 +711,7 @@
     <Compile Include="Queue\UpdateQueueEvent.cs" />
     <Compile Include="Restrictions\Restriction.cs" />
     <Compile Include="Restrictions\RestrictionRepository.cs" />
+    <Compile Include="Restrictions\RestrictionRule.cs" />
     <Compile Include="Restrictions\RestrictionService.cs" />
     <Compile Include="Rest\JsonNetSerializer.cs" />
     <Compile Include="Rest\RestClientFactory.cs" />

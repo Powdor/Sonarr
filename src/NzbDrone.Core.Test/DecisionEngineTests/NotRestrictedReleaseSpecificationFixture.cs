@@ -8,7 +8,7 @@ using NzbDrone.Core.Test.Framework;
 namespace NzbDrone.Core.Test.DecisionEngineTests
 {
     [TestFixture]
-    public class NotRestrictedReleaseSpecificationFixture : CoreTest<NotRestrictedReleaseSpecification>
+    public class NotRestrictedReleaseSpecificationFixture : CoreTest<ReleaserestrictionsSpecification>
     {
         private RemoteEpisode _parseResult;
 
