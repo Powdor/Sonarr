@@ -81,17 +81,7 @@ namespace NzbDrone.Core.Organizer
 
             if (!namingConfig.RenameEpisodes)
             {
-                if (episodeFile.SceneName.IsNullOrWhiteSpace())
-                {
-                    if (episodeFile.RelativePath.IsNullOrWhiteSpace())
-                    {
-                        return Path.GetFileNameWithoutExtension(episodeFile.Path);
-                    }
-
-                    return Path.GetFileNameWithoutExtension(episodeFile.RelativePath);
-                }
-
-                return episodeFile.SceneName;
+                return GetOriginalTitle(episodeFile);
             }
 
             if (namingConfig.StandardEpisodeFormat.IsNullOrWhiteSpace() && series.SeriesType == SeriesTypes.Standard)
@@ -122,36 +112,6 @@ namespace NzbDrone.Core.Organizer
             if (series.SeriesType == SeriesTypes.Anime && episodes.All(e => e.AbsoluteEpisodeNumber.HasValue))
             {
                 pattern = namingConfig.AnimeEpisodeFormat;
-            }
-
-            if (OriginalTitleRegex.IsMatch(pattern))
-            {
-                string originalTitle;
-
-                if (episodeFile.SceneName.IsNullOrWhiteSpace())
-                {
-                    if (episodeFile.RelativePath.IsNullOrWhiteSpace())
-                    {
-                        originalTitle = Path.GetFileNameWithoutExtension(episodeFile.Path);
-                    }
-
-                    else
-                    {
-                        originalTitle = Path.GetFileNameWithoutExtension(episodeFile.RelativePath);
-                    }
-                }
-
-                else
-                {
-                    originalTitle = episodeFile.SceneName;
-                }
-
-                tokenHandlers["{Original Title}"] = m => originalTitle;
-
-                var originalTitleFileName = ReplaceTokens(pattern, tokenHandlers).Trim();
-                originalTitleFileName = FileNameCleanupRegex.Replace(originalTitleFileName, match => match.Captures[0].Value[0].ToString());
-
-                return originalTitleFileName;
             }
 
             pattern = AddSeasonEpisodeNumberingTokens(pattern, tokenHandlers, episodes, namingConfig);
@@ -436,7 +396,7 @@ namespace NzbDrone.Core.Organizer
 
         private void AddEpisodeFileTokens(Dictionary<String, Func<TokenMatch, String>> tokenHandlers, Series series, EpisodeFile episodeFile)
         {
-            tokenHandlers["{Original Title}"] = m => episodeFile.SceneName ?? String.Empty;
+            tokenHandlers["{Original Title}"] = m => GetOriginalTitle(episodeFile);
             tokenHandlers["{Release Group}"] = m => episodeFile.ReleaseGroup ?? "DRONE";
             tokenHandlers["{Quality Title}"] = m => GetQualityTitle(series, episodeFile.Quality);
         }
@@ -691,6 +651,21 @@ namespace NzbDrone.Core.Organizer
             }
 
             return _qualityDefinitionService.Get(quality.Quality).Title + qualitySuffix;
+        }
+
+        private String GetOriginalTitle(EpisodeFile episodeFile)
+        {
+            if (episodeFile.SceneName.IsNullOrWhiteSpace())
+            {
+                if (episodeFile.RelativePath.IsNullOrWhiteSpace())
+                {
+                    return Path.GetFileNameWithoutExtension(episodeFile.Path);
+                }
+
+                return Path.GetFileNameWithoutExtension(episodeFile.RelativePath);
+            }
+
+            return episodeFile.SceneName;
         }
     }
 

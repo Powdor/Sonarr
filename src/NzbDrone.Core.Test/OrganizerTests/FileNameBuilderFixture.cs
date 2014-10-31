@@ -618,15 +618,16 @@ namespace NzbDrone.Core.Test.OrganizerTests
         }
 
         [Test]
-        public void should_use_empty_string_instead_of_null_when_scene_name_is_not_available()
+        public void should_use_existing_filename_when_scene_name_is_not_available()
         {
             _namingConfig.RenameEpisodes = true;
             _namingConfig.StandardEpisodeFormat = "{Original Title}";
 
             _episodeFile.SceneName = null;
+            _episodeFile.RelativePath = "existing.file.mkv";
 
             Subject.BuildFileName(new List<Episode> { _episode1 }, _series, _episodeFile)
-                   .Should().Be(String.Empty);
+                   .Should().Be(Path.GetFileNameWithoutExtension(_episodeFile.RelativePath));
         }
 
         [Test]
