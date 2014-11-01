@@ -3,19 +3,17 @@ using NzbDrone.Core.Datastore.Migration.Framework;
 
 namespace NzbDrone.Core.Datastore.Migration
 {
-    [Migration(66)]
-    public class add_tags : NzbDroneMigrationBase
+    [Migration(67)]
+    public class add_release_restrictions : NzbDroneMigrationBase
     {
         protected override void MainDbUpgrade()
         {
-            Create.TableForModel("Tags")
-                  .WithColumn("Label").AsString().NotNullable();
-
-            Alter.Table("Series")
-                 .AddColumn("Tags").AsString().Nullable();
-
-            Alter.Table("Notifications")
-                 .AddColumn("Tags").AsString().Nullable();
+            Create.TableForModel("Restrictions")
+                  .WithColumn("Label").AsString().NotNullable()
+                  .WithColumn("Required").AsString().NotNullable()
+                  .WithColumn("Preferred").AsString().NotNullable()
+                  .WithColumn("Ignored").AsString().NotNullable()
+                  .WithColumn("Tags").AsString().NotNullable();
         }
     }
 }
